@@ -199,7 +199,7 @@ ax[2].set_xlabel("Bulan")
 ax[2].set_ylabel("Total Monetary")
 
 for i, col in enumerate(["recency", "frequency", "monetary"]):
-    for index, value in enumerate(data_df[col]):
+    for index, value in enumerate(rfm_df[col]):
         ax[i].text(index, value + 1, str(value), ha="center", fontsize=12)
 
 plt.tight_layout()
