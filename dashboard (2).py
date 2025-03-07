@@ -181,19 +181,19 @@ fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
 colors = ["#90CAF9", "#90CAF9", "#90CAF9", "#90CAF9", "#90CAF9"]
 
 # Grafik Recency
-sns.barplot(x="mnth_desc", y="recency", data=data_df, palette="Blues_r", ax=plt.axes[0])
+sns.barplot(x="mnth_desc", y="recency", data=rfm_df, palette="Blues_r", ax=ax[0])
 ax[0].set_title("Recency Penyewaan per Bulan", fontsize=14)
 ax[0].set_xlabel("Bulan")
 ax[0].set_ylabel("Recency (Hari sejak penyewaan terakhir)")
 
 # Grafik Frequency
-sns.barplot(x="mnth_desc", y="frequency", data=data_df, palette="Greens_r", ax=ax[1])
+sns.barplot(x="mnth_desc", y="frequency", data=rfm_df, palette="Greens_r", ax=ax[1])
 ax[1].set_title("Frequency Penyewaan per Bulan", fontsize=14)
 ax[1].set_xlabel("Bulan")
 ax[1].set_ylabel("Total Frequency")
 
 # Grafik Monetary
-sns.barplot(x="mnth_desc", y="monetary", data=data_df, palette="Oranges_r", ax=ax[2])
+sns.barplot(x="mnth_desc", y="monetary", data=rfm_df, palette="Oranges_r", ax=ax[2])
 ax[2].set_title("Monetary Penyewaan per Bulan", fontsize=14)
 ax[2].set_xlabel("Bulan")
 ax[2].set_ylabel("Total Monetary")
