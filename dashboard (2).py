@@ -166,15 +166,15 @@ st.subheader("Best Customer Based on RFM Parameters")
 col1, col2, col3 = st.columns(3)
  
 with col1:
-    avg_recency = round(data_df.recency.mean(), 1)
+    avg_recency = round(rfm_df.recency.mean(), 1)
     st.metric("Average Recency (days)", value=avg_recency)
  
 with col2:
-    avg_frequency = round(data_df.frequency.mean(), 2)
+    avg_frequency = round(rfm_df.frequency.mean(), 2)
     st.metric("Average Frequency", value=avg_frequency)
  
 with col3:
-    avg_frequency = format_currency(data_df.monetary.mean(), "AUD", locale='es_CO') 
+    avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO')
     st.metric("Average Monetary", value=avg_frequency)
  
 fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
