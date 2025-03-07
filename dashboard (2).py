@@ -146,14 +146,22 @@ fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(35, 15))
  
 colors = ["#90CAF9", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
  
-sns.barplot(x="cnt_x", y="mnth_desc", data=sum_order_items_df, palette=colors, ax=ax[0])
+sns.barplot(x="casual", y="mnth_desc", data=sum_order_items_df, palette=colors, ax=ax[0])
+# Seaborn memberikan error karena kolom "casual" tidak ditemukan dalam sum_order_items_df.
+# Gantilah casual dengan cnt_x, karena casual tidak ada dalam sum_order_items_df.
+
+
 ax[0].set_xlabel("Total Casual")
 ax[0].set_ylabel(None)
 ax[0].set_title("Total Pelanggan Casual per Bulan", fontsize=15)
 ax[0].tick_params(axis='y', labelsize=35)
 ax[0].tick_params(axis='x', labelsize=30)
 
-sns.barplot(x="mnth_desc", y="cnt_x", data=sum_order_items_df, ax=ax[1], color="#72BCD4")
+sns.plot(x="mnth_desc", y=["casual", "registered"], kind="bar", ax=ax[1], color=["#72BCD4", "#FFA07A"])
+# Perbaiki error pada kode ini.
+# Tidak ada sns.plot() dalam Seaborn.
+# Gantilah dengan sns.barplot():
+
 ax[1].set_title("Total Pelanggan Casual dan Registered per Bulan", fontsize=15)
 ax[1].set_xlabel(None)
 ax[1].set_ylabel(None)
@@ -166,40 +174,53 @@ st.subheader("Best Customer Based on RFM Parameters")
 col1, col2, col3 = st.columns(3)
  
 with col1:
-    avg_recency = round(rfm_df.recency.mean(), 1)
+    avg_recency = round(data_df.recency.mean(), 1)
+    # Recency hanya ada di dataframe rfm_df, bukan di data_df.
+    # Gantilah data_df.recency.mean() dengan rfm_df.recency.mean():
     st.metric("Average Recency (days)", value=avg_recency)
  
 with col2:
-    avg_frequency = round(rfm_df.frequency.mean(), 2)
+    avg_frequency = round(data_df.frequency.mean(), 2)
+    # Ganti dengan avg_frequency = round(rfm_df.frequency.mean(), 2)
     st.metric("Average Frequency", value=avg_frequency)
  
 with col3:
-    avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO')
+    avg_frequency = format_currency(data_df.monetary.mean(), "AUD", locale='es_CO') 
+    # Ganti dengan avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO')
     st.metric("Average Monetary", value=avg_frequency)
  
+# Error ini muncul karena salah referensi dataframe. Pastikan kolom yang dipanggil memang ada di dataframe yang digunakan.
+
 fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
 colors = ["#90CAF9", "#90CAF9", "#90CAF9", "#90CAF9", "#90CAF9"]
 
 # Grafik Recency
-sns.barplot(x="mnth_desc", y="recency", data=rfm_df, palette="Blues_r", ax=ax[0])
+sns.barplot(x="mnth_desc", y="recency", data=data_df, palette="Blues_r", ax=plt.axes[0])
+# plt.axes[0] bukanlah cara yang valid untuk memilih subplot.
+# Akses subplot dengan ax[0], ax[1], dan ax[2], bukan plt.axes[0].
+# Gunakan rfm_df sebagai data, karena hanya rfm_df yang memiliki kolom recency, frequency, dan monetary.
+# Seharusnya ax[0] karena sebelumnya subplots dibuat dengan fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15)).
+
 ax[0].set_title("Recency Penyewaan per Bulan", fontsize=14)
 ax[0].set_xlabel("Bulan")
 ax[0].set_ylabel("Recency (Hari sejak penyewaan terakhir)")
 
 # Grafik Frequency
-sns.barplot(x="mnth_desc", y="frequency", data=rfm_df, palette="Greens_r", ax=ax[1])
+sns.barplot(x="mnth_desc", y="frequency", data=data_df, palette="Greens_r", ax=ax[1])
+# Gunakan rfm_df sebagai data, karena hanya rfm_df yang memiliki kolom recency, frequency, dan monetary.
 ax[1].set_title("Frequency Penyewaan per Bulan", fontsize=14)
 ax[1].set_xlabel("Bulan")
 ax[1].set_ylabel("Total Frequency")
 
 # Grafik Monetary
-sns.barplot(x="mnth_desc", y="monetary", data=rfm_df, palette="Oranges_r", ax=ax[2])
+sns.barplot(x="mnth_desc", y="monetary", data=data_df, palette="Oranges_r", ax=ax[2])
+# Gunakan rfm_df sebagai data, karena hanya rfm_df yang memiliki kolom recency, frequency, dan monetary.
 ax[2].set_title("Monetary Penyewaan per Bulan", fontsize=14)
 ax[2].set_xlabel("Bulan")
 ax[2].set_ylabel("Total Monetary")
 
 for i, col in enumerate(["recency", "frequency", "monetary"]):
-    for index, value in enumerate(rfm_df[col]):
+    for index, value in enumerate(data_df[col]):
         ax[i].text(index, value + 1, str(value), ha="center", fontsize=12)
 
 plt.tight_layout()
